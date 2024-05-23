@@ -1,0 +1,16 @@
+patch:
+  # 仅使用「雾凇拼音」的默认配置，配置此行即可
+  # __include: rime_ice_suggestion:/
+  schema_list:
+    # 雾凇拼音
+    # - schema: rime_ice
+    # 朙月拼音
+    # - schema: luna_pinyin
+    - schema: luna_pinyin_simp
+
+  # 导入模糊音
+  # __include: ./fuzzy.pinyin.yaml
+
+  # 导入词库
+  # translator:
+    # dictionary: self

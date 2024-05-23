@@ -1,0 +1,31 @@
+# Rime dictionary
+# encoding: utf-8
+
+---
+name: self_dict
+version: "2024-03-30"
+import_tables:
+  # 雾凇拼音
+  # https://github.com/iDvel/rime-ice
+  # - rime_ice
+  # 字表
+  # - cn_dicts/8105
+  # 大字表（按需启用）
+  # - cn_dicts/41448
+  # 基础词库
+  # - cn_dicts/base
+  # 扩展词库
+  # - cn_dicts/ext
+  # 腾讯词向量（大词库，部署时间较长）
+  # - cn_dicts/tencent
+  # 一些杂项
+  # - cn_dicts/others
+  # 朙月拼音
+  - luna_pinyin
+  # 萌娘百科
+  # https://github.com/outloudvi/mw2fcitx/
+  - dict/moegirl
+  # 维基百科
+  # https://github.com/felixonmars/fcitx5-pinyin-zhwiki
+  - dict/zhwiki
+  

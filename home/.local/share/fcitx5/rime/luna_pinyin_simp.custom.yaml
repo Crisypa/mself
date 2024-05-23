@@ -1,0 +1,89 @@
+# 朙月拼音 简体
+patch:
+
+    # 朙月拼音 模糊音定製模板
+    # 佛振配製 :-)
+    # https://gist.github.com/lotem/2320943
+  'speller/algebra':
+    # 第一行保留
+    - erase/^xx$/
+    # 模糊音定義
+    # 需要哪組就刪去行首的 # 號，單雙向任選
+    # zh, ch, sh => z, c, s
+    - derive/^([zcs])h/$1/
+    # z, c, s => zh, ch, sh
+    - derive/^([zcs])([^h])/$1h$2/
+    # n => l
+    - derive/^n/l/
+    # l => n
+    - derive/^l/n/
+    # 這兩組一般是單向的
+    # r => l
+    # - derive/^r/l/
+    # ren => yin, reng => ying
+    # - derive/^ren/yin/
+    # r => y
+    # - derive/^r/y/
+    # 下面 hu <=> f 這組寫法複雜一些，分情況討論
+    # hu => fu
+    - derive/^hu$/fu/
+    # hong => feng
+    - derive/^hong$/feng/
+    # hui => fei, hun => fen
+    - derive/^hu([in])$/fe$1/
+    # hua => fa, ...
+    - derive/^hu([ao])/f$1/
+    # fu => hu
+    - derive/^fu$/hu/
+    # feng => hong
+    - derive/^feng$/hong/
+    # fei => hui, fen => hun
+    - derive/^fe([in])$/hu$1/
+    # fa => hua, ...
+    - derive/^f([ao])/hu$1/
+    # 韻母部份
+    # meng = mong, ...
+    # - derive/^([bpmf])eng$/$1ong/
+    # an => ang, en => eng, in => ing, on => ong
+    - derive/([aeio])n$/$1ng/
+    # ang => an, eng => en, ing => in, ong => on
+    - derive/([aeio])ng$/$1n/
+    # 樣例足夠了，其他請自己總結……
+    # ian => iang, uan => uang
+    - derive/([iu])an$/$lang/
+    # iang => ian, uang => uan
+    - derive/([iu])ang$/$lan/
+    # 模糊音定義先於簡拼定義，方可令簡拼支持以上模糊音
+    # 簡拼（首字母）
+    - abbrev/^([a-z]).+$/$1/
+    # 簡拼（zh, ch, sh）
+    - abbrev/^([zcs]h).+$/$1/
+    # 以下是一組容錯拼寫，《漢語拼音》方案以前者爲正
+    # nve = nue, lve = lue
+    - derive/^([nl])ve$/$1ue/
+    # ju = jv,
+    - derive/^([jqxy])u/$1v/
+    # gun = guen,
+    - derive/un$/uen/
+    # gui = guei,
+    - derive/ui$/uei/
+    # jiu = jiou,
+    - derive/iu$/iou/
+    # 自動糾正一些常見的按鍵錯誤
+    # dagn => dang
+    - derive/([aeiou])ng$/$1gn/
+    # zho => zhong|zhou
+    - derive/([dtngkhrzcs])o(u|ng)$/$1o/
+    # zhonguo => zhong guo
+    - derive/ong$/on/
+    # hoa => hao
+    - derive/ao$/oa/
+    # tain => tian
+    - derive/([iu])a(o|ng?)$/a$1$2/
+  # 分尖團後 v => ü 的改寫條件也要相應地擴充：
+  #'translator/preedit_format':
+  #  - "xform/([nljqxyzcs])v/$1ü/"
+
+  # 导入词库
+  translator:
+    dictionary: self_dict
