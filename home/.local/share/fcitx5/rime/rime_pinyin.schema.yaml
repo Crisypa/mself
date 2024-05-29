@@ -4,7 +4,7 @@
 # 方案说明
 schema:
   schema_id: rime_pinyin
-  name: 拼音
+  name: 中州韵拼音
   version: "20240530"
   author:
     - crisipa
