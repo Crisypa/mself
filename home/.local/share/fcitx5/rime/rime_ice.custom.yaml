@@ -1,10 +1,5 @@
-# 朙月拼音 简体
 patch:
-  # 导入词库
-  translator:
-    dictionary: dict/self_dict
   # 模糊音
   __include: spic/fuzzy.ice:/
   # 候选栏个数
   "menu/page_size": 7
-  

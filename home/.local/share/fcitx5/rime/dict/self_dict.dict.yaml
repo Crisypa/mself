@@ -5,27 +5,26 @@
 name: self_dict
 version: "2024-03-30"
 import_tables:
-  # 雾凇拼音
-  # https://github.com/iDvel/rime-ice
-  # - rime_ice
   # 字表
-  # - cn_dicts/8105
+  - rime_ice/8105
   # 大字表（按需启用）
-  # - cn_dicts/41448
+  # - rime_ice/41448
+  # 朙月拼音 字表
+  # - luna_pinyin
+  # 袖珍简化字拼音 字表
+  # - pinyin_simp
   # 基础词库
-  # - cn_dicts/base
+  - rime_ice/base
   # 扩展词库
-  # - cn_dicts/ext
+  - rime_ice/ext
   # 腾讯词向量（大词库，部署时间较长）
-  # - cn_dicts/tencent
+  - rime_ice/tencent
   # 一些杂项
-  # - cn_dicts/others
-  # 朙月拼音
-  - luna_pinyin
+  # - rime_ice/others
   # 萌娘百科
   # https://github.com/outloudvi/mw2fcitx/
-  - dict/moegirl
+  - moegirl
   # 维基百科
   # https://github.com/felixonmars/fcitx5-pinyin-zhwiki
-  - dict/zhwiki
+  - zhwiki
   

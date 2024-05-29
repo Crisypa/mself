@@ -1,0 +1,196 @@
+# Rime schema
+# encoding: utf-8
+
+# 方案说明
+schema:
+  schema_id: rime_pinyin
+  name: 拼音
+  version: "20240530"
+  author:
+    - crisipa
+  description: |
+    自用拼音
+    修改自 朙月拼音
+    https://github.com/rime/rime-luna-pinyin/blob/master/luna_pinyin.schema.yaml
+
+# 开关
+# reset: 默认状态。注释掉后，切换窗口时不会重置到默认状态。
+# states: 方案选单显示的名称。可以注释掉，仍可以通过快捷键切换。
+# abbrev: 默认的缩写取 states 的第一个字符，abbrev 可自定义一个字符
+switches:
+  - name: ascii_mode
+    states: [ 中, A ]
+  - name: ascii_punct
+    states: [ 。, . ]
+  - name: traditionalization
+    states: [ 简, 繁 ]
+  - name: full_shape
+    states: [ 半角, 全角 ]
+
+# 输入引擎
+engine:
+  # 这批组件处理各类按键消息
+  processors:
+    # 处理西文模式及中西文切换
+    - ascii_composer
+    # 与 matcher 搭配，处理符合特定规则的输入码，如网址、反查等
+    - recognizer
+    # 在特定条件下将按键绑定到其他按键，如重定义逗号、句号为候选翻页键
+    - key_binder
+    # 拼写处理器，接受字符按键，编辑输入码
+    - speller
+    # 句读处理器，将单个字符按键直接映射为文字符号
+    - punctuator
+    # 选字处理器，处理数字选字键、上、下候选定位、换页键
+    - selector
+    # 处理输入栏内的光标移动键
+    - navigator
+    # 编辑器，处理空格、回车上屏、回退键等
+    - express_editor
+  # 这批组件识别不同内容类型，将输入码分段
+  segmentors:
+    # 标识西文段落
+    - ascii_segmentor
+    # 标识符合特定规则的段落，如网址、反查等
+    - matcher
+    # 标识常规的文字段落
+    - abc_segmentor
+    # 标识句读段落
+    - punct_segmentor
+    # 标识其他未标识段落
+    - fallback_segmentor
+  # 这批组件翻译特定类型的编码段为一组候选文字
+  translators:
+    # 没有其他候选字时，回显输入码
+    # - echo_translator
+    # 转换标点符号
+    - punct_translator
+    # 码表翻译器，用于仓颉、五笔等基于码表的输入方案，替换 script_translator
+    # 自定义短语 custom_phrase.txt
+    # - table_translator@custom_phrase
+    # 反查翻译器，用另一种编码方案查码
+    # - reverse_lookup_translator
+    # 脚本翻译器，用于拼音等基于音节表的输入方案
+    - script_translator
+    # 强制 GC
+    # - lua_translator@force_gc
+  filters:
+    # Emoji
+    - simplifier@emoji
+    # 简繁切换
+    - simplifier@traditionalize
+    # 去重
+    - uniquifier
+
+# 拼写设定
+speller:
+  # 如果不想让什么标点直接上屏，可以加在 alphabet，或者编辑标点符号为两个及以上的映射
+  alphabet: zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA
+  # 第一位<空格>是拼音之间的分隔符；第二位<'>表示可以手动输入单引号来分割拼音。
+  delimiter: " '"
+  algebra:
+    # https://github.com/fkxxyz/rime-cloverpinyin/blob/master/src/clover.schema.yaml#L81
+    # 基础
+    - abbrev/^([a-z]).+$/$1/
+    - abbrev/^([zcs]h).+$/$1/
+    # 补全
+    # o = ou; o = ong
+    - derive/([dtngkhrzcs])o(u|ng)$/$1o/
+    # on = ong
+    - derive/ong$/on/
+    # din = ding
+    - derive/^ding$/din/
+    # 处理 v 和 u
+    # nve = nue; lve = lue
+    - derive/^([nl])ue$/$1ve/
+    # v = u; v = u
+    - derive/^([jqxy])u/$1v/
+    # 智能纠错
+    # oa = ao
+    - derive/ao$/oa/
+    # aio = iao; aing = iang; aung = uang
+    - derive/([iu])a(o|ng?)$/a$1$2/
+    # gn = ng
+    - derive/([aeiou])ng$/$1gn/
+    # uen = un
+    - derive/un$/uen/
+    # uei = ui
+    - derive/ui$/uei/
+    # iou = ui
+    - derive/iu$/iou/
+    # tei = tie
+    - derive/tie$/tei/
+    # ii = i  # i 不小心按两下
+    - derive/i$/ii/
+    # ui = u  # u 不小心按两下
+    - derive/u$/uu/
+
+# 主翻译器，拼音
+translator:
+  # 挂载词库
+  dictionary: self_dict
+  # preedit_format 影响到输入框的显示和“Shift+回车”上屏的字符
+  preedit_format:
+    - xform/([nl])v/$1ü/
+    - xform/([nl])ue/$1üe/
+    - xform/([jqxy])v/$1u/
+
+# 自定义短语：custom_phrase.txt
+# custom_phrase:
+#   dictionary: ""
+#   # 可以修改这里，改成自己的 txt 文件
+#   user_dict: custom_phrase
+#   # 只读数据库，无法动态调频；设为 tabledb 可以动态调频
+#   db_class: tabledb
+#   # 补全提示
+#   enable_completion: false
+#   # 禁止造句
+#   enable_sentence: false
+#   # custom_phrase 的权重
+#   initial_quality: 1
+
+# 标点符号
+# punctuator 下面有三个子项：
+#   full_shape 全角标点映射
+#   half_shape 半角标点映射
+#   symbols    Rime 的预设配置是以 '/' 前缀开头输出一系列字符，自定义的 symbols_v.yaml 修改成了 'v' 开头
+punctuator:
+  # 导入预设
+  import_preset: symbols
+
+# 快捷键
+key_binder:
+  # 从 default.yaml 继承通用的
+  import_preset: default
+
+# 处理符合特定规则的输入码，如网址、反查
+recognizer:
+  import_preset: default
+  patterns:
+    punct: '^/([0-9]0?|[A-Za-z]+)$'
+    reverse_lookup: "`[a-z]*'?$"
+
+# 语言模型，用于提升联想效果
+# grammar:
+  # https://github.com/lotem/rime-octagram-data/blob/hans/zh-hans-t-essay-bgw.gram
+  # language: zh-hans-t-essay-bgw
+
+# Emoji
+emoji:
+  option_name: emoji
+  opencc_config: emoji.json
+  # 在 corrector.lua 及反查中，emoji 返回空注释
+  inherit_comment: false
+
+# 简繁切换
+traditionalize:
+  option_name: traditionalization
+  # s2t.json | s2hk.json | s2tw.json | s2twp.json
+  opencc_config: s2tg.json
+  # 转换提示: all 都显示 | char 仅单字显示 | none 不显示
+  tips: none
+  # 限制在对应 tag，不对其他如反查的内容做简繁转换
+  tags: [ abc, number, gregorian_to_lunar ]
+
+__patch:
+  - luna_pinyin.custom:/patch?
