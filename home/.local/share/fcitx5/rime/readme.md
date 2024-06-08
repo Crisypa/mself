@@ -7,6 +7,7 @@
 | 雾凇拼音 | https://github.com/iDvel/rime-ice |
 | 朙月拼音 | https://github.com/rime/rime-luna-pinyin |
 | 袖珍简化字拼音 | https://github.com/rime/rime-pinyin-simp/blob/master/pinyin_simp.schema.yaml |
+| 融合拼音 | https://github.com/tumuyan/rime-melt |
 
 ## 文件说明
 

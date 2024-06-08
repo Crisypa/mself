@@ -193,4 +193,4 @@ traditionalize:
   tags: [ abc, number, gregorian_to_lunar ]
 
 __patch:
-  - luna_pinyin.custom:/patch?
+  - rime_pinyin.custom:/patch?

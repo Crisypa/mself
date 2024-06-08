@@ -1,0 +1,61 @@
+[Match]
+# 匹配无线网
+Name=wl*
+
+[Network]
+# 接收 DHCP 请求
+# yes | ipv4 | ipv6 | no
+DHCP=yes
+# 如何生成 IPv6 链路本地地址
+# stable-privacy | random
+IPv6LinkLocalAddressGenerationMode=random
+# 生成 IPv6 链路本地地址的稳定密钥
+# stable-privacy 需要此设置
+# IPv6StableSecretAddress=
+# NTP 服务器地址
+# NTP=
+# 配置 IP 数据包转发
+# true | ipv4 | ipv6 | no
+# 默认关闭
+# IPForward=true
+# 配置 IP 伪装
+# both | ipv4 | ipv6 | no
+# 默认关闭
+# IPMasquerade=both
+# IPV6 隐私扩展
+# true | prefer-public  | kernel | no
+IPv6PrivacyExtensions=true
+# 配置 IPv4 反向路径过滤
+# strict | loose | no
+IPv4ReversePathFilter=strict
+# ?
+# dhcp-on-stop | no
+KeepConfiguration=dhcp-on-stop
+
+[Address]
+# 冲突检测
+# both | ipv6 | ipv4 | none
+DuplicateAddressDetection=both
+
+[Route]
+# TCP 快速 ACK 模式
+# true | false
+# QuickAck=true
+# 指定 TCP 拥塞控制算法
+# cubic | bbr | westwood
+# 有线建议 cubic 无线建议 westwood
+TCPCongestionControlAlgorithm=westwood
+# 指定 TCP 重传超时(RTO)
+# TCPRetransmissionTimeoutSec=
+
+[DHCPv4]
+# 匿名
+Anonymize=true
+# 设置优先级
+RouteMetric=20
+
+[DHCPv6]
+# 不把主机名推送到DHCP服务器
+SendHostname=false
+# 设置优先级
+RouteMetric=20
