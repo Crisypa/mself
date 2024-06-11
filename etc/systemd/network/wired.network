@@ -1,19 +1,20 @@
 [Match]
 # 匹配以太网
-Name=en*
+# 以 MAC 地址匹配
+PermanentMACAddress=4e:96:52:e8:a6:e2
+# 以设备类型匹配
+# 不建议
+# Type=ether
+# 以接口名匹配
+# Name=eno* enp* eth*
 
 [Network]
 # 接收 DHCP 请求
 # yes | ipv4 | ipv6 | no
 DHCP=yes
 # 如何生成 IPv6 链路本地地址
-# stable-privacy | random
+# random | stable-privacy
 IPv6LinkLocalAddressGenerationMode=random
-# 生成 IPv6 链路本地地址的稳定密钥
-# stable-privacy 需要此设置
-# IPv6StableSecretAddress=
-# NTP 服务器地址
-# NTP=
 # 配置 IP 数据包转发
 # true | ipv4 | ipv6 | no
 # 默认关闭
@@ -25,38 +26,70 @@ IPv6LinkLocalAddressGenerationMode=random
 # IPV6 隐私扩展
 # true | prefer-public  | kernel | no
 IPv6PrivacyExtensions=true
+# 控制 IPv6 路由器通告 RA 的接收支持
+# true | false
+# IPv6AcceptRA=true
 # 配置 IPv4 反向路径过滤
 # strict | loose | no
 IPv4ReversePathFilter=strict
+# 接受本地源的数据包地址
+# true | false
+# IPv4AcceptLocal=true
 # ?
 # dhcp-on-stop | no
-KeepConfiguration=dhcp-on-stop
-
-[Address]
-# 冲突检测
-# both | ipv6 | ipv4 | none
-DuplicateAddressDetection=both
+# KeepConfiguration=dhcp-on-stop
 
 [Route]
-# TCP 快速 ACK 模式
-# true | false
-# QuickAck=true
+# 网关地址
+# 可填入 _dhcp4 _ipv6ra
+Gateway=_ipv6ra
+Gateway=_dhcp4
 # 指定 TCP 拥塞控制算法
 # 查看可能的值
 # sysctl net.ipv4.tcp_available_congestion_control
+# sysctl net.ipv4.tcp_allowed_congestion_control
 # 有线建议 cubic 无线建议 westwood
 TCPCongestionControlAlgorithm=cubic
-# 指定 TCP 重传超时(RTO)
-# TCPRetransmissionTimeoutSec=
 
 [DHCPv4]
 # 匿名
+# 仅建议在 .link 文件里设置了
+# MACAddressPolicy=random   # MAC 地址随机化
+# 的情况下开启
 Anonymize=true
+# 不把主机名推送到DHCP服务器
+SendHostname=false
+# 要使用的 DHCPv4 客户端标识符
+#  mac | duid
+# ClientIdentifier=mac
+# 使用 DHCP 服务器提供的 DNS 服务器
+# true | false
+UseDNS=true
+# 使用 DHCP 服务器提供的 NTP 服务器
+# false | true
+UseNTP=false
 # 设置优先级
 RouteMetric=10
+# 使用 DHCP 服务器下发的时区信息
+# false | true
+UseTimezone=false
+# 是否尝试仅 IPv6
+# false | true
+IPv6OnlyMode=false
 
 [DHCPv6]
 # 不把主机名推送到DHCP服务器
 SendHostname=false
+# 使用 DHCP 服务器提供的 DNS 服务器
+# true | false
+UseDNS=true
+# 使用 DHCP 服务器提供的 NTP 服务器
+# false | true
+UseNTP=false
+
+[IPv6AcceptRA]
+# 使用 RA 通告的 DNS 服务器
+# true | false
+UseDNS=true
 # 设置优先级
 RouteMetric=10

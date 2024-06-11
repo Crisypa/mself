@@ -1,0 +1,83 @@
+[Match]
+# 匹配所有设备
+OriginalName=*
+
+[Link]
+# MAC 地址
+# 与 MACAddressPolicy 互斥
+# MACAddress=
+# MAC 地址策略
+# random | persistent | none
+MACAddressPolicy=random
+
+# 双工模式
+# full | half
+# Duplex=
+# 自动协商传输速率
+# true | false
+# AutoNegotiation=
+# 禁止网络唤醒
+WakeOnLan=off
+
+# 对传入网络数据包校验和的硬件加速
+# true | false
+ReceiveChecksumOffload=true
+# 对传出网络数据包校验和的硬件加速
+# true | false
+TransmitChecksumOffload=true
+
+# 分段 offloading 可能会带来一些潜在的问题
+# 如不可接受的延迟
+# 或其他的网络问题
+# 建议仅在 CPU 资源紧张时启用
+# 通用分段卸载 (GSO)
+# 比 TSO 更普适的技术
+# 减少了对硬件的要求
+# true | false
+# GenericSegmentationOffload=true
+# TCP 分段卸载 (TSO)
+# 一种利用网卡分割大数据包,减小 CPU 负荷的技术
+# 需要 硬件和驱动 的支持
+# 需要启用网卡的这两个特性:
+# tx-checksumming
+# scatter-gather
+# true | false
+# TCPSegmentationOffload=true
+# IPv6 TCP 分段卸载 (TSO)
+# true | false
+# TCP6SegmentationOffload=true
+# 通用接收卸载 (GRO)
+# LRO 的改进
+# true | false
+# GenericReceiveOffload=true
+# 硬件加速的通用接收卸载 (GRO)
+# true | false
+GenericReceiveOffloadHardware=true
+# 大接收卸载 (LRO)
+# 在接收路径上将多个数据包聚合
+# 然后传递给网络协议栈处理
+# 以减少上层协议栈处理开销
+# 并提高系统接收 TCP 数据包的能力
+# 存在一些问题:
+# 会导致无法使用桥接功能
+# 可能会破坏一些包
+# true | false
+LargeReceiveOffload=false
+
+# 启用接收流控制
+# 也称为以太网接收暂停消息
+# 生成并发送以太网暂停帧
+# true | false
+# RxFlowControl=
+# 启用传输流量控制
+# 也称为以太网传输暂停消息
+# 响应接收到的以太网暂停帧
+# true | false
+# TxFlowControl=
+# 自动协商流量控制
+# true | false
+# AutoNegotiationFlowControl=
+# 启用/禁用自适应 Rx/Tx 合并(如果硬件支持)
+# true | false
+# UseAdaptiveRxCoalesce=
+# UseAdaptiveTxCoalesce=
