@@ -1,0 +1,23 @@
+#
+# This file is parsed by pam_env module
+#
+# Syntax: simple "KEY=VAL" pairs on separate lines
+#
+
+# fcitx
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
+SDL_IM_MODULE=fcitx
+INPUT_METHOD=fcitx
+GLFW_IM_MODULE=ibus
+
+# nvidia-vaapi-translate-driver
+# choose backend Either egl (default), or direct
+# NVD_BACKEND=direct
+
+# GCM use kwallet
+GCM_CREDENTIAL_STORE=secretservice
+
+# nodejs system ca
+NODE_EXTRA_CA_CERTS=/etc/ca-certificates/extracted/tls-ca-bundle.pem
