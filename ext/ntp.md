@@ -25,7 +25,7 @@
 | 中国 NTP 快速授时服务 | ntp.org.cn cn.ntp.org.cn | 似乎存在负面记录 |
 | 中国 NTP 快速授时服务 中国教育网 | edu.ntp.org.cn | 似乎存在负面记录 |
 | 中国教育网 | time.edu.cn | 非教育网用户可能使用体验不佳 |
-| 中国计量科学研究院 | ntp1.nim.ac.cn ntp2.nim.ac.cn |
+| 中国计量科学研究院 | ntp1.nim.ac.cn ntp2.nim.ac.cn | - |
 | 中国国家授时中心 | ntp.ntsc.ac.cn | - |
 | ntppool 中国 | cn.pool.ntp.org | - |
 | ntppool 香港 | hk.pool.ntp.org | - |
