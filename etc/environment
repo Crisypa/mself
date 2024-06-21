@@ -29,9 +29,9 @@ NODE_EXTRA_CA_CERTS=/etc/ca-certificates/extracted/tls-ca-bundle.pem
 # 七牛云 CDN
 # GOPROXY=https://goproxy.cn
 # 腾讯云
-GOPROXY=https://mirrors.cloud.tencent.com/go/
+# GOPROXY=https://mirrors.cloud.tencent.com/go/
 # 阿里云
-# GOPROXY=https://mirrors.aliyun.com/goproxy/
+GOPROXY=https://mirrors.aliyun.com/goproxy/
 
 # rustup
 # 阿里云
