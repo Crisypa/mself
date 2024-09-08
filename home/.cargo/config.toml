@@ -1,0 +1,8 @@
+[source.crates-io]
+replace-with = 'sjtu'
+
+[source.bfsu]
+registry = "sparse+https://mirrors.bfsu.edu.cn/crates.io-index/"
+
+[source.sjtu]
+registry = "sparse+https://mirrors.sjtug.sjtu.edu.cn/crates.io-index/"

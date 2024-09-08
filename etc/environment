@@ -40,3 +40,6 @@ RUSTUP_DIST_SERVER=https://mirrors.aliyun.com/rustup
 # 教育网
 # RUSTUP_UPDATE_ROOT=https://mirrors.cernet.edu.cn/rustup/rustup
 # RUSTUP_DIST_SERVER=https://mirrors.cernet.edu.cn/rustup
+# 减少编译时间
+# 需要安装 sccache
+RUSTC_WRAPPER=sccache
