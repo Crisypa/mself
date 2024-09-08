@@ -30,6 +30,7 @@
 | ntppool 中国 | cn.pool.ntp.org | - |
 | ntppool 香港 | hk.pool.ntp.org | - |
 | ntppool 台湾 | tw.pool.ntp.org | - |
+| 台湾国家时间与频率标准实验室 | tick.stdtime.gov.tw tock.stdtime.gov.tw time.stdtime.gov.tw clock.stdtime.gov.tw watch.stdtime.gov.tw | 中国大陆可能无法使用 |
 
 ## 亚洲其他地区
 
@@ -41,7 +42,6 @@
 | 东北大学（日本） | ntp.tohoku.ac.jp | - |
 | 庆应大学 | ntp.st.keio.ac.jp | - |
 | INTERNET MULTIFEED CO | ntp.jst.mfeed.ad.jp | - |
-| 台湾国家时间与频率标准实验室 | tick.stdtime.gov.tw tock.stdtime.gov.tw time.stdtime.gov.tw clock.stdtime.gov.tw watch.stdtime.gov.tw | 中国大陆可能无法使用 |
 | 印度科学与工业研究理事会—国家物理实验室 | time.nplindia.org | - |
 | 韩国标准科学研究院 | time.kriss.re.kr | - |
 | 马来西亚国家计量学会 | ntp1.sirim.my ntp2.sirim.my ntp3.sirim.my | - |
