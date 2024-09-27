@@ -1,9 +1,9 @@
 patch:
   schema_list:
-    # 雾凇拼音
-    # - schema: rime_ice
     # 朙月拼音
-    # - schema: luna_pinyin
-    - schema: luna_pinyin_simp
+    - schema: luna_pinyin
+    # - schema: luna_pinyin_simp
     # 袖珍简化字拼音
     # - schema: pinyin_simp
+    # 雾凇拼音
+    # - schema: rime_ice

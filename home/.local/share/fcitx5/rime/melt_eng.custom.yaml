@@ -1,4 +1,0 @@
-patch:
-  # 导入词库
-  translator:
-    dictionary: dict/self_dict_en

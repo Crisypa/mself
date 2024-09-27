@@ -1,5 +1,0 @@
-patch:
-  # 模糊音
-  __include: spic/fuzzy.ice:/
-  # 候选栏个数
-  "menu/page_size": 7
