@@ -1,0 +1,166 @@
+# PKI defines the location of credentials for this node. Each of these can also be inlined by using the yaml ": |" syntax.
+pki:
+  # The CAs that are accepted by this node. Must contain one or more certificates created by 'nebula-cert ca'
+  ca: /etc/nebula/ca.crt
+  cert: /etc/nebula/host.crt
+  key: /etc/nebula/host.key
+  # 证书指纹黑名单
+  # blocklist:
+    # - c99d4e650533b92061b09918e838a5a0a6aaee21eed1d12fd937682865936c72
+  # 是否断开与证书过期/无效客户端的连接
+  disconnect_invalid: true
+
+# 静态主机映射
+# 语法 : "{nebula ip}": ["{routable ip/dns name}:{routable port}"]
+static_host_map:
+  "192.168.100.1": ["1.0.2.4:1024"]
+
+# 静态映射
+static_map:
+  # 重新查询静态映射中列出的主机名的时间间隔
+  cadence: 60s
+  # 与静态映射中的主机通信的 IP 版本
+  # ip | ip6 | ip4
+  network: ip
+  # 静态主机的 DNS 查找超时
+  lookup_timeout: 400ms
+
+lighthouse:
+  # 为节点启用 Lighthouse 功能,这应该只在灯塔节点上配置为 true
+  am_lighthouse: false
+  # 指定 应多久向 Lighthouse 报告一次 单位 秒
+  interval: 60
+  # 应向其报告和查询的灯塔主机的列表
+  # 在灯塔节点上，这应该是空的
+  # 这里的灯塔 IP 应该是其星云 IP ，而不是其物理网络接口的 IP
+  hosts:
+    - "192.168.100.1"
+  # 过滤向灯塔广播的本地 IP 地址
+  # 过滤向灯塔广播的本地 IP 地址
+  local_allow_list:
+    # 筛选接口
+    interfaces:
+      # 'eth*': true
+      # 'en*': true
+      'wg': false
+    # IP 地址范围
+    # "10.0.0.0/8": true
+
+# nebula 将使用的端口
+listen:
+  # To listen on both any ipv4 and ipv6 use '[::]'
+  host: '[::]'
+  # 0 或不填以使用动态端口
+  port: 0
+
+# 配置定期发送入站/出站数据包，以避免防火墙NAT过期 映射
+punchy:
+  # 启用其功能，这会导致节点定期发送小数据包。
+  punch: true
+  # 无法接收握手的节点将尝试向尝试接收握手的主机发起握手 建立隧道
+  # 若节点位于困难的 NAT 后面，这可能非常有用 e.g:对称 NAT
+  respond: true
+  # 在尝试 punchy.respond 之前的延迟
+  delay: 10s
+  # set the delay before attempting punchy.respond. Default is 5 seconds. respond must be true to take effect.
+  respond_delay: 4s
+
+# 选择密码套件
+# 此值在所有节点和灯塔上必须相同
+# AES256-GCM | ChaCha20-Poly1305
+# aes | chachapoly
+cipher: chachapoly
+
+# Nebula 内置的调试控制台 可以通过 SSH 访问 
+# 它可以公开信息和管理功能 并允许在调试或测试时手动调整各种网络设置
+#sshd:
+  # Toggles the feature
+  # enabled: true
+  # Host and port to listen on, port 22 is not allowed for your safety
+  # listen: 127.0.0.1:2222
+  # A file containing the ssh host private key to use
+  # A decent way to generate one: ssh-keygen -t ed25519 -f ssh_host_ed25519_key -N "" < /dev/null
+  # host_key: ./ssh_host_ed25519_key
+  # Authorized users and their public keys
+  # authorized_users:
+    # - user: steeeeve
+      # keys can be an array of strings or single string
+      # keys:
+        # - "ssh public key string"
+  # Trusted SSH CA public keys. These are the public keys of the CAs that are allowed to sign SSH keys for access.
+  # trusted_cas:
+    # - "ssh public key string"
+
+# 中继主机
+relay:
+  # 中续主机列表 填入 Nebula IPs
+  # relays:
+    #- 192.168.100.1
+    #- <other Nebula VPN IPs of hosts used as relays to access me>
+  # 作为中续主机
+  am_relay: false
+  # 是否尝试通过中继建立连接
+  use_relays: false
+
+# Configure the private interface. Note: addr is baked into the nebula certificate
+tun:
+  # 允许禁用星云接口
+  disabled: false
+  # 设置接口名称
+  # dev: nebula1
+  # 设置传输队列长度
+  # 如果您注意到 tun 上有很多传输丢弃，提高此数字可能会有所帮助
+  # 默认值为 500
+  # tx_queue: 500
+  # 每个数据包的默认 MTU
+  # 互联网路由数据包的安全设置为 (默认) 1300
+  # mtu: 1300
+  # 基于路由的 MTU 覆盖
+  # routes:
+    # - mtu: 8800
+      # route: 10.0.0.0/16
+  # 直接在系统路由表上使用网关路由管理不安全的路由
+  # use_system_route_table: false
+
+# Configure logging level
+logging:
+  # panic | fatal | error | warning | info | debug
+  level: warning
+  # json or text formats currently available. Default is text
+  format: text
+  # 禁用时间戳日志记录
+  # disable_timestamp: false
+
+# 握手
+handshakes:
+  # 时间间隔
+  # try_interval: 100ms
+  # 重试次数
+  retries: 10
+
+# Nebula security group configuration
+firewall:
+  # Action to take when a packet is not allowed by the firewall rules.
+  # Can be one of:
+  #   `drop` (default): silently drop the packet.
+  #   `reject`: send a reject reply.
+  #     - For TCP, this will be a RST "Connection Reset" packet.
+  #     - For other protocols, this will be an ICMP port unreachable packet.
+  outbound_action: reject
+  inbound_action: reject
+  conntrack:
+    tcp_timeout: 10m
+    udp_timeout: 3m
+    default_timeout: 10m
+  # 出站规则
+  outbound:
+    # Allow all outbound traffic from this node
+    - port: any
+      proto: any
+      host: any
+  # 入站规则
+  inbound:
+    # Allow all inbound traffic from any nebula hosts
+    - port: any
+      proto: any
+      host: any
