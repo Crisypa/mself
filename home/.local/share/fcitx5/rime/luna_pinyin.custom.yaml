@@ -6,165 +6,35 @@ patch:
       states: [ 中文, 西文 ]
     - name: full_shape
       states: [ 半角, 全角 ]
-    # 默认简体 https://github.com/rime/home/wiki/CustomizationGuide#%E4%B8%80%E4%BE%8B%E5%AE%9A%E8%A3%BD%E7%B0%A1%E5%8C%96%E5%AD%97%E8%BC%B8%E5%87%BA
-    - name: simplification
-      reset: 1
-      states: [ 漢字, 汉字 ]
+    # 默认简体 (简体字表)
+    - name: traditionalization
+      states: [ 简, 繁 ]
     - name: ascii_punct
       states: ["。，", "．，"]
     # emoji https://github.com/rime/rime-emoji/blob/master/emoji_suggestion.yaml
     - name: emoji_suggestion
       reset: 1
       states: [ "🈚︎", "🈶️" ]
-  # emoji https://github.com/rime/rime-emoji/blob/master/emoji_suggestion.yaml
-  'engine/filters/@before 0':
-    simplifier@emoji_suggestion
+  'engine/filters':
+    # emoji https://github.com/rime/rime-emoji/blob/master/emoji_suggestion.yaml
+    - simplifier@emoji_suggestion
+    # 繁体化
+    - simplifier@traditionalize
+    # 原有内容
+    - simplifier
+    - uniquifier
   # emoji https://github.com/rime/rime-emoji/blob/master/emoji_suggestion.yaml
   emoji_suggestion:
     opencc_config: emoji.json
     option_name: emoji_suggestion
     tips: none
     inherit_comment: false
+  # 繁体化
+  traditionalize:
+    option_name: traditionalization
+    # s2t.json | s2hk.json | s2tw.json | s2twp.json
+    opencc_config: s2tg.json
+    # 转换提示: all 都显示 | char 仅单字显示 | none 不显示。
+    tips: none
   # 导入词库
   'translator/dictionary': self_dict
-  # 模糊音 https://github.com/iDvel/rime-ice/blob/main/rime_ice.schema.yaml
-  'speller/algebra':
-    # 第一行保留
-    - erase/^xx$/
-    # 声母
-    # zh* ch* sh* 派生出 z* c* s*
-    # - derive/^([zcs])h/$1/
-    # z* c* s*    派生出 zh* ch* sh*
-    # - derive/^([zcs])([^h])/$1h$2/
-    # 解释：为 l 开头的拼写派生出 n 开头，即 nai 也可以输出 lai（来、莱、赖……）
-    # - derive/^l/n/
-    # lai 可输出 nai（奶、乃、奈……）。 可以单向或成对儿启用模糊音
-    # - derive/^n/l/
-    # - derive/^f/h/
-    # - derive/^h/f/
-    # - derive/^l/r/
-    # - derive/^r/l/
-    # - derive/^g/k/
-    # - derive/^k/g/
-    # 韵母
-    # - derive/ang$/an/
-    # - derive/an$/ang/
-    # - derive/eng$/en/
-    # - derive/en$/eng/
-    # - derive/in$/ing/
-    # - derive/ing$/in/
-    # - derive/ian$/iang/
-    # - derive/iang$/ian/
-    # - derive/uan$/uang/
-    # - derive/uang$/uan/
-    # - derive/ai$/an/
-    # - derive/an$/ai/
-    # - derive/ong$/un/
-    # - derive/un$/ong/
-    # - derive/ong$/on/
-    # - derive/iong$/un/
-    # - derive/un$/iong/
-    # - derive/ong$/eng/
-    # - derive/eng$/ong/
-    # 拼音音节
-    # - derive/^fei$/hui/
-    # - derive/^hui$/fei/
-    # - derive/^hu$/fu/
-    # - derive/^fu$/hu/
-    # - derive/^wang$/huang/
-    # - derive/^huang$/wang/
-    # 旧时的拼写规则
-    # - derive/un$/uen/
-    # - derive/ui$/uei/
-    # - derive/iu$/iou/
-    # 超级简拼
-    # - erase/^hm$/ # 响应超级简拼，取消「噷 hm」的独占（如果拼音词库有这个音节的话，雾凇里没有）
-    # - erase/^m$/  # 响应超级简拼，取消「呣 m」的独占（如果拼音词库有这个音节的话，雾凇里没有）
-    # - erase/^n$/  # 响应超级简拼，取消「嗯 n」的独占（如果拼音词库有这个音节的话，雾凇里没有）
-    # - erase/^ng$/ # 响应超级简拼，取消「嗯 ng」的独占（如果拼音词库有这个音节的话，雾凇里没有）
-    # - abbrev/^([a-z]).+$/$1/   # 超级简拼
-    # - abbrev/^([zcs]h).+$/$1/  # 超级简拼中，zh ch sh 视为整体（ch'sh → 城市），而不是像这样分开（c'h's'h → 吃好睡好）。
-    # v u 转换
-    # 雾凇的词库严格按照正确的 u v(ü) 注音的，支持使用 qu/qv nue/nve 来输入 qu nve
-    - derive/^([nl])ve$/$1ue/
-    - derive/^([jqxy])u/$1v/
-    # 以防引入的其他词库没按照正确方式注音，也做一个转换
-    - derive/^([nl])ue$/$1ve/
-    - derive/^([jqxy])v/$1u/
-    # 自动纠错
-    # START 这几个有副作用的规则圈起来，方便取舍
-    # 这些规则对全拼简拼混输有副作用：如「x'ai 喜爱」被纠错为「xia 下」
-    # zh、ch、sh
-    - derive/([zcs])h(a|e|i|u|ai|ei|an|en|ou|uo|ua|un|ui|uan|uai|uang|ang|eng|ong)$/h$1$2/  # hzi → zhi
-    - derive/([zcs])h([aeiu])$/$1$2h/  # zih → zhi
-    # # ia
-    # - derive/([qjx])ia$/$1ai/  # qai → qia
-    # # an
-    # - derive/([wrtypsdfghklzcbnm])an$/$1na/  # dna → dan
-    # # en
-    # - derive/([wrpsdfghklzcbnm])en$/$1ne/  # rne → ren
-    # # in
-    # - derive/([qypjlxbnm])in$/$1ni/  # qni → qin
-    # # un
-    # - derive/([qrtysdghjklzxc])un$/$1nu/  # qnu → qun
-    # # ian
-    # - derive/([qtpdjlxbnm])ian$/$1ain/
-    # END
-    # ai
-    - derive/^([wghk])ai$/$1ia/  # wia → wai
-    # ei
-    - derive/([wfghkz])ei$/$1ie/  # wie → wei
-    # ie
-    - derive/([jqx])ie$/$1ei/  # jei → jie
-    # ao
-    - derive/([rtypsdghklzcbnm])ao$/$1oa/
-    # ou
-    - derive/([ypfm])ou$/$1uo/
-    # uo（无）
-    # ang
-    - derive/([wrtypsdfghklzcbnm])ang$/$1nag/
-    - derive/([wrtypsdfghklzcbnm])ang$/$1agn/
-    # eng
-    - derive/([wrtpsdfghklzcbnm])eng$/$1neg/
-    - derive/([wrtpsdfghklzcbnm])eng$/$1egn/
-    # ing
-    - derive/([qtypdjlxbnm])ing$/$1nig/
-    - derive/([qtypdjlxbnm])ing$/$1ign/
-    # ong
-    - derive/([rtysdghklzcn])ong$/$1nog/
-    - derive/([rtysdghklzcn])ong$/$1ogn/
-    # iao
-    - derive/([qtpdjlxbnm])iao$/$1ioa/
-    - derive/([qtpdjlxbnm])iao$/$1oia/
-    # ui
-    - derive/([rtsghkzc])ui$/$1iu/
-    # iu
-    - derive/([qjlxnm])iu$/$1ui/
-    # iang
-    - derive/([qjlxn])iang$/$1aing/
-    - derive/([qjlxn])iang$/$1inag/
-    # ua
-    - derive/([g|k|h|zh|sh])ua$/$1au/
-    # uai
-    - derive/([g|h|k|zh|ch|sh])uai$/$1aui/
-    # - derive/([g|h|k|zh|ch|sh])uai$/$1uia/ # 和「会啊、追啊」等常用词有冲突
-    # uan
-    - derive/([qrtysdghjklzxcn])uan$/$1aun/
-    # - derive/([qrtysdghjklzxcn])uan$/$1una/ # 和「去哪、露娜」等常用词有冲突
-    # ue
-    - derive/([nlyjqx])ue$/$1eu/
-    # uang
-    - derive/([g|h|k|zh|ch|sh])uang$/$1aung/
-    - derive/([g|h|k|zh|ch|sh])uang$/$1uagn/
-    - derive/([g|h|k|zh|ch|sh])uang$/$1unag/
-    - derive/([g|h|k|zh|ch|sh])uang$/$1augn/
-    # iong
-    - derive/([jqx])iong$/$1inog/
-    - derive/([jqx])iong$/$1oing/
-    - derive/([jqx])iong$/$1iogn/
-    - derive/([jqx])iong$/$1oign/
-    # 其他
-    - derive/([rtsdghkzc])o(u|ng)$/$1o/ # do → dou|dong
-    - derive/(.+)ong$/$1on/ # lon → long
-    - derive/([tl])eng$/$1en/ # ten → teng
-    - derive/([qwrtypsdfghjklzxcbnm])([aeio])ng$/$1ng/ # lng → lang、leng、ling、long

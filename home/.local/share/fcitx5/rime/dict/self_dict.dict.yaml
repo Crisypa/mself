@@ -9,10 +9,6 @@ import_tables:
   - rime_ice/8105
   # 大字表（按需启用）
   - rime_ice/41448
-  # 朙月拼音 字表
-  # - luna_pinyin
-  # 袖珍简化字拼音 字表
-  # - pinyin_simp
   # 基础词库
   - rime_ice/base
   # 扩展词库
