@@ -1,0 +1,63 @@
+{
+	# General Options
+
+    # 端口
+	http_port    80
+	https_port   443
+
+    # 默认绑定地址
+ 	# default_bind <host>
+
+	# TLS Options
+
+    # 自动 HTTPS
+
+	# auto_https
+ 	#  off | disable_redirects | ignore_loaded_certs | disable_certs
+ 	auto_https disable_redirects
+
+    # 电子邮件地址 创建 ACME 帐户时使用
+	# email
+    # 默认的 TLS ServerName
+	# default_sni
+	# ACME DNS 质询提供程序
+	# acme_dns cloudflare
+	# 密钥类型
+	# key_type ed25519
+
+	## Server Options
+
+	## PKI Options
+
+    admin off
+
+    # log
+}
+
+(reverse_lb_config) {
+        lb_policy random
+        fail_duration 60s  #失败时间
+        max_fails 10       #失败计数
+        unhealthy_status 502 403 421
+        flush_interval -1
+}
+
+# from steamcommunity302
+(PNA_CORS) {
+    @options {
+        method OPTIONS
+    }
+    respond @options 204
+    header {
+        Access-Control-Allow-Origin {http.request.header.Origin}
+        Access-Control-Allow-Credentials true
+        Access-Control-Allow-Methods *
+        Access-Control-Allow-Headers *
+        Access-Control-Allow-Private-Network true
+        Access-Control-Request-Private-Network true
+    defer
+    }
+}
+
+# localhost
+import /etc/caddy/conf.d/local
