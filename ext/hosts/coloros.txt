@@ -1,0 +1,21 @@
+# coloros 云控
+# 收集自酷安
+0.0.0.0 api.cdo.oppomobile.com
+0.0.0.0 conn-service-cn-03.allawntech.com
+0.0.0.0 beacons2.gvt2.com
+0.0.0.0 app-measurement.com
+0.0.0.0 component-ota-cn.allawntech.com
+0.0.0.0 report.uc.heytapmobi.com
+0.0.0.0 obus-cn.dc.heytapmobi.com
+0.0.0.0 obus-dctech-cn.heytapmobi.com
+0.0.0.0 client-uc.heytapmobi.com
+0.0.0.0 mdp-appconf-cn.heytapdownload.com
+0.0.0.0 conn1.oppomobile.com
+0.0.0.0 mdp-usertrace-cn.heytapmobi.com
+0.0.0.0 dragate.dc.oppomobile.com
+0.0.0.0 omes-sec.heytapmobi.com
+0.0.0.0 conf-cn-dc.heytapdownload.com
+0.0.0.0 b1-data.ads.heytapmobi.com
+0.0.0.0 connectivitycheck.gstatic.com
+0.0.0.0 api-cn.game.heytapmobi.com
+0.0.0.0 api-cn.theme.heytapmobi.com
